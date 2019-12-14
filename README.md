@@ -1,5 +1,4 @@
 
-
 - Loging into https://login.sys.datamelange.com with dev-XX
 - Select MarketPlace and search MySQL for Pivotal Cloud Foundry v2 with keyword "mysql" and then select plan
 - Specify Instance Name with dev-db-XX and click Create button. It will take a few minutes
@@ -17,8 +16,6 @@ OK
 Targeted org seoul-mysql
 
 Targeted space workshop
-
-
 
 API endpoint:   https://api.sys.datamelange.com (API version: 3.74.0)
 User:           dev-13
@@ -45,11 +42,28 @@ Create in progress. Use 'cf services' or 'cf service dev-db-13' to check operati
   - If you did not install JDK version correcdtly, Follow the step descriabed at the link [1]
   - [1] How to uninstall java on Mac -  https://explainjava.com/uninstall-java-macos/
 
-- 
 
-- Build app
-~~~In these steps, the -03 is present to differentiate one student from another; use your assigned ID here in place of the 03
+- Download the Zip file containing the Spring Music app from https://github.com/cloudfoundry-samples/spring-music, then unzip the downloaded file.
+  - Change into the resulting directory
+  - Edit the ./manifest.yml file, appending your team ID to the name value; e.g. name: spring-music-13
+  - Build the Spring Boot app: ./gradlew clean build
+~~~
+$ ./gradlew clean build
+Starting a Gradle Daemon (subsequent builds will be faster)
 
+> Task :compileJava
+Note: /Users/admin/gss-training-mysql-for-pcf/spring-music-master/src/main/java/org/cloudfoundry/samples/music/config/SpringApplicationContextInitializer.java uses or overrides a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+
+> Task :test
+2019-12-14 13:38:24.210  INFO 793 --- [       Thread-5] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2019-12-14 13:38:24.215  INFO 793 --- [       Thread-5] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2019-12-14 13:38:24.216  INFO 793 --- [       Thread-5] .SchemaDropperImpl$DelayedDropActionImpl : HHH000477: Starting delayed evictData of schema as part of SessionFactory shut-down'
+2019-12-14 13:38:24.223  INFO 793 --- [       Thread-5] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2019-12-14 13:38:24.227  INFO 793 --- [       Thread-5] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+
+BUILD SUCCESSFUL in 24s
+~~~
 
 cd spring-music
 gradle build
