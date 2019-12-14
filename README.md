@@ -1,7 +1,19 @@
+## Preparing Build and CCF Client environment on Mac
+- Install CloudFoudry CLI referring from https://github.com/cloudfoundry/cli/releases
+- Install MySQL Client on Mac
+  - brew install mysql
+- Install CloudForundy MySQL Plugin
+  - cf install-plugin -r "CF-Community" mysql-plugin
+- Install JDK 1.8
+ - Installing java -  https://java.com/en/download/help/mac_install.xml
+  - If you did not install JDK version correcdtly, Follow the step descriabed at the link [1]
+    - [1] How to uninstall java on Mac -  https://explainjava.com/uninstall-java-macos/
 
+## Preparing MySQL environment on PCF
 - Loging into https://login.sys.datamelange.com with dev-XX
 - Select MarketPlace and search MySQL for Pivotal Cloud Foundry v2 with keyword "mysql" and then select plan
 - Specify Instance Name with dev-db-XX and click Create button. It will take a few minutes
+
 - Create service after login with cf cli on Mac
 ~~~
 $ cf login -a https://api.sys.datamelange.com --skip-ssl-validation
@@ -31,17 +43,6 @@ OK
 
 Create in progress. Use 'cf services' or 'cf service dev-db-13' to check operation status.
 ~~~
-
-- Install CloudFoudry CLI referring from https://github.com/cloudfoundry/cli/releases
-- Install MySQL Client on Mac
-  - brew install mysql
-- Install CloudForundy MySQL Plugin
-  - cf install-plugin -r "CF-Community" mysql-plugin
-- Install JDK 1.8
- - Installing java -  https://java.com/en/download/help/mac_install.xml
-  - If you did not install JDK version correcdtly, Follow the step descriabed at the link [1]
-  - [1] How to uninstall java on Mac -  https://explainjava.com/uninstall-java-macos/
-
 
 - Download the Zip file containing the Spring Music app from https://github.com/cloudfoundry-samples/spring-music, then unzip the downloaded file.
   - Change into the resulting directory
