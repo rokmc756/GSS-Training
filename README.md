@@ -428,25 +428,50 @@ EXPLAIN SELECT * FROM members WHERE joined < '1989-01-01' AND joined > '1980-01-
 ~~~
   cf services
 ~~~
-  - Delete service
-~~~
-  cf delete-service dev-db-03
-~~~
   - List buildpack
 ~~~
   cf buildpacs -B <build kind>
 ~~~
   - Unbind service
 ~~~
-  cf us spring-music-13 dev-db-13
+$ cf us spring-music-13 dev-db-13
+Unbinding app spring-music-13 from service dev-db-13 in org seoul-mysql / space workshop as dev-13...
+Binding between dev-db-13 and spring-music-13 did not exist
+
+OK
 ~~~
-  - Create service key
+  - Delete service key
 ~~~
-  cf create-service-key dev-db-13 sk-10-08
+$ cf delete-service dev-db-13
+
+Really delete the service dev-db-13?> y
+Deleting service dev-db-13 in org seoul-mysql / space workshop as dev-13...
+FAILED
+Cannot delete service instance. Service keys, bindings, and shares must first be deleted.
+$ cf delete-service-key dev-db-13 cf-mysql
+
+Really delete the service key cf-mysql?> y
+Deleting key cf-mysql for service instance dev-db-13 as dev-13...
+OK
 ~~~
-  - Fetch credentials for CLI login to service instances:
+  - Delete service
 ~~~
-  cf service-key dev-db-13 sk-10-08
+$ cf delete-service dev-db-13
+
+Really delete the service dev-db-13?> y
+Deleting service dev-db-13 in org seoul-mysql / space workshop as dev-13...
+OK
+
+Delete in progress. Use 'cf services' or 'cf service dev-db-13' to check operation status.
+~~~
+  - Delete applicatoin
+~~~
+$ cf delete spring-music-13
+
+Really delete the app spring-music-13?> y
+Deleting app spring-music-13 in org seoul-mysql / space workshop as dev-13...
+OK
+Admins-MacBook-Air-2:spring-music-master admin$
 ~~~
   - Tunnel
 ~~~
