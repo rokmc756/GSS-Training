@@ -1,9 +1,13 @@
 ## Preparing Build and CCF Client environment on Mac
 - Install CloudFoudry CLI referring from https://github.com/cloudfoundry/cli/releases
 - Install MySQL Client on Mac
-  - brew install mysql
+~~~
+brew install mysql
+~~~
 - Install CloudForundy MySQL Plugin
-  - cf install-plugin -r "CF-Community" mysql-plugin
+~~~
+cf install-plugin -r "CF-Community" mysql-plugin
+~~~
 - Install JDK 1.8
  - Installing java -  https://java.com/en/download/help/mac_install.xml
   - If you did not install JDK version correcdtly, Follow the step descriabed at the link [1]
