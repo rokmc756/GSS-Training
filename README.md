@@ -303,13 +303,16 @@ mysqldump: [Warning] Using a password on the command line interface can be insec
 
 - Work through example of data loading, index creation, viewing query plan, compressing a table. NOTE: you must have an app bound to the service instance before doing this.
 - Create the tables: use ./osm_tables.sql, either copy/paste into a cf mysql terminal, or cf mysql dev-db-03 < ./osm_tables.sql
-Set your service instance name in the load script, ./load_osm_data_mysql.sh
-Run that script to load data into these tables: ./load_osm_data_mysql.sh Caveat: if you need to load large data sets, it's better to do that in smaller chunks, as discussed here.
-Run query:
+- Set your service instance name in the load script, ./load_osm_data_mysql.sh
+- Run that script to load data into these tables: ./load_osm_data_mysql.sh Caveat: if you need to load large data sets, it's better to do that in smaller chunks, as discussed here.
+- Run query:
+~~~
 select v, count(*) from osm_k_v where k = 'amenity' group by 1 order by 2 desc limit 30;
-Review query plan (e.g. EXPLAIN):
+~~~
+- Review query plan (e.g. EXPLAIN):
+~~~
 explain select v, count(*) from osm_k_v where k = 'amenity' group by 1 order by 2 desc limit 30;
-
+~~~
 
 - Destroy app
   - cf delete spring-music-13
