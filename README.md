@@ -405,7 +405,7 @@ EXPLAIN SELECT * FROM members WHERE joined < '1989-01-01';
 EXPLAIN SELECT * FROM members WHERE joined < '1989-01-01' AND joined > '1980-01-01';
 ~~~
 
-- Reference commands
+## Reference commands
   - Destroy app
 ~~~
   cf delete spring-music-13
