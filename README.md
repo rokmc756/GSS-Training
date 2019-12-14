@@ -64,16 +64,149 @@ Note: Recompile with -Xlint:deprecation for details.
 
 BUILD SUCCESSFUL in 24s
 ~~~
-
-cd spring-music
-gradle build
+- Deploy apps into PAS without starting
+  - cf push --no-start
 ~~~
+Pushing from manifest to org seoul-mysql / space workshop as dev-13...
+Using manifest file /Users/admin/gss-training-mysql-for-pcf/spring-music-master/manifest.yml
+Getting app info...
+Creating app with these attributes...
++ name:       spring-music-13
+  path:       /Users/admin/gss-training-mysql-for-pcf/spring-music-master/build/libs/spring-music-master-1.0.jar
++ memory:     1G
+  routes:
++   spring-music-13-noisy-springhare-gv.apps.datamelange.com
+
+Creating app spring-music-13...
+Mapping routes...
+Comparing local files to remote cache...
+Packaging files to upload...
+Uploading files...
+ 512.93 KiB / 512.93 KiB [=================================================================] 100.00% 4s
+
+Waiting for API to complete processing files...
+
+name:              spring-music-13
+requested state:   stopped
+routes:            spring-music-13-noisy-springhare-gv.apps.datamelange.com
+last uploaded:
+stack:
+buildpacks:
+
+type:           web
+instances:      0/1
+memory usage:   1024M
+     state   since                  cpu    memory   disk     details
+#0   down    2019-12-14T04:44:15Z   0.0%   0 of 0   0 of 0
+~~~
+- How do apps access services?
+  - cf bind-service spring-music-13 dev-db-13
+~~~
+$ cf bind-service spring-music-13 dev-db-13
+Binding service dev-db-13 to app spring-music-13 in org seoul-mysql / space workshop as dev-13...
+OK
+
+TIP: Use 'cf restage spring-music-13' to ensure your env variable changes take effect
+~~~
+  - cf start spring-music-13
+~~~
+$ cf bind-service spring-music-13 dev-db-13
+Binding service dev-db-13 to app spring-music-13 in org seoul-mysql / space workshop as dev-13...
+OK
+
+TIP: Use 'cf restage spring-music-13' to ensure your env variable changes take effect
+Admins-MacBook-Air-2:spring-music-master admin$ cf start spring-music-13
+Starting app spring-music-13 in org seoul-mysql / space workshop as dev-13...
+
+Staging app and tracing logs...
+   Downloading binary_buildpack...
+   Downloading r_buildpack...
+   Downloading nginx_buildpack...
+   Downloading php_buildpack...
+   Downloading python_buildpack...
+   Downloaded binary_buildpack
+   Downloading dotnet_core_buildpack...
+   Downloaded nginx_buildpack
+   Downloading java_buildpack_offline...
+   Downloaded python_buildpack
+   Downloading staticfile_buildpack...
+   Downloaded r_buildpack
+   Downloading ruby_buildpack...
+   Downloaded php_buildpack
+   Downloading nodejs_buildpack...
+   Downloaded dotnet_core_buildpack
+   Downloading go_buildpack...
+   Downloaded nodejs_buildpack
+   Downloaded staticfile_buildpack
+   Downloaded java_buildpack_offline
+   Downloaded go_buildpack
+   Downloaded ruby_buildpack
+   Cell b0ef6c53-978f-4caa-b241-35d649f75715 creating container for instance 82139033-b405-4ae5-af7f-1d14b8a314cc
+   Cell b0ef6c53-978f-4caa-b241-35d649f75715 successfully created container for instance 82139033-b405-4ae5-af7f-1d14b8a314cc
+   Downloading app package...
+   Downloaded app package (47.9M)
+   -----> Java Buildpack v4.21 (offline) | https://github.com/cloudfoundry/java-buildpack.git#0bc7378
+   -----> Downloading Jvmkill Agent 1.16.0_RELEASE from https://java-buildpack.cloudfoundry.org/jvmkill/bionic/x86_64/jvmkill-1.16.0-RELEASE.so (found in cache)
+   -----> Downloading Open Jdk JRE 1.8.0_222 from https://java-buildpack.cloudfoundry.org/openjdk/bionic/x86_64/openjdk-jre-1.8.0_222-bionic.tar.gz (found in cache)
+          Expanding Open Jdk JRE to .java-buildpack/open_jdk_jre (0.8s)
+          JVM DNS caching disabled in lieu of BOSH DNS caching
+   -----> Downloading Open JDK Like Memory Calculator 3.13.0_RELEASE from https://java-buildpack.cloudfoundry.org/memory-calculator/bionic/x86_64/memory-calculator-3.13.0-RELEASE.tar.gz (found in cache)
+          Loaded Classes: 19609, Threads: 250
+   -----> Downloading Client Certificate Mapper 1.11.0_RELEASE from https://java-buildpack.cloudfoundry.org/client-certificate-mapper/client-certificate-mapper-1.11.0-RELEASE.jar (found in cache)
+   -----> Downloading Container Security Provider 1.16.0_RELEASE from https://java-buildpack.cloudfoundry.org/container-security-provider/container-security-provider-1.16.0-RELEASE.jar (found in cache)
+   -----> Downloading Metric Writer 3.1.0_RELEASE from https://java-buildpack.cloudfoundry.org/metric-writer/metric-writer-3.1.0-RELEASE.jar (found in cache)
+   -----> Downloading Spring Auto Reconfiguration 2.8.0_RELEASE from https://java-buildpack.cloudfoundry.org/auto-reconfiguration/auto-reconfiguration-2.8.0-RELEASE.jar (found in cache)
+   Exit status 0
+   Uploading droplet, build artifacts cache...
+   Uploading droplet...
+   Uploading build artifacts cache...
+   Uploaded build artifacts cache (132B)
+   Uploaded droplet (91.5M)
+   Uploading complete
+   Cell b0ef6c53-978f-4caa-b241-35d649f75715 stopping instance 82139033-b405-4ae5-af7f-1d14b8a314cc
+   Cell b0ef6c53-978f-4caa-b241-35d649f75715 destroying container for instance 82139033-b405-4ae5-af7f-1d14b8a314cc
+   Cell b0ef6c53-978f-4caa-b241-35d649f75715 successfully destroyed container for instance 82139033-b405-4ae5-af7f-1d14b8a314cc
+
+Waiting for app to start...
+
+name:              spring-music-13
+requested state:   started
+routes:            spring-music-13-noisy-springhare-gv.apps.datamelange.com
+last uploaded:     Sat 14 Dec 13:48:02 KST 2019
+stack:             cflinuxfs3
+buildpacks:        client-certificate-mapper=1.11.0_RELEASE container-security-provider=1.16.0_RELEASE
+                   java-buildpack=v4.21-offline-https://github.com/cloudfoundry/java-buildpack.git#0bc7378
+                   java-main java-opts java-security jvmkill-agent=1.16.0_RELEASE metric-w...
+
+type:            web
+instances:       1/1
+memory usage:    1024M
+start command:   JAVA_OPTS="-agentpath:$PWD/.java-buildpack/open_jdk_jre/bin/jvmkill-1.16.0_RELEASE=printHeapHistogram=1
+                 -Djava.io.tmpdir=$TMPDIR -XX:ActiveProcessorCount=$(nproc)
+                 -Djava.ext.dirs=$PWD/.java-buildpack/container_security_provider:$PWD/.java-buildpack/open_jdk_jre/lib/ext
+                 -Djava.security.properties=$PWD/.java-buildpack/java_security/java.security $JAVA_OPTS" &&
+                 CALCULATED_MEMORY=$($PWD/.java-buildpack/open_jdk_jre/bin/java-buildpack-memory-calculator-3.13.0_RELEASE
+                 -totMemory=$MEMORY_LIMIT -loadedClasses=20919 -poolType=metaspace -stackThreads=250
+                 -vmOptions="$JAVA_OPTS") && echo JVM Memory Configuration: $CALCULATED_MEMORY &&
+                 JAVA_OPTS="$JAVA_OPTS $CALCULATED_MEMORY" && MALLOC_ARENA_MAX=2 SERVER_PORT=$PORT eval exec
+                 $PWD/.java-buildpack/open_jdk_jre/bin/java $JAVA_OPTS -cp $PWD/.
+                 org.springframework.boot.loader.JarLauncher
+     state     since                  cpu    memory        disk       details
+#0   running   2019-12-14T04:48:29Z   0.0%   42.7K of 1G   8K of 1G
+~~~
+- Access the credentials for the bound service instance:
+  - cf env spring-music-03
+- The better way to fetch credentials for CLI login to service instances:
+  - cf create-service-key dev-db-03 sk-03-01
+- A cf CLI plugin provides access to service instances using an SSH tunnel:
+  - cf mysql dev-db-03
+
+
+
+
 
 - Destroy app
   - cf delete spring-music-13
-
-- Push app
-  - cf push --no-start
 
 - List app
   - cf apps
