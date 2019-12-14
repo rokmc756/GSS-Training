@@ -14,7 +14,7 @@ cf install-plugin -r "CF-Community" mysql-plugin
     - [1] How to uninstall java on Mac -  https://explainjava.com/uninstall-java-macos/
 
 ## Preparing MySQL environment on PCF
-- Loging into https://login.sys.datamelange.com with dev-XX
+- Loging into https://login.sys.datamelange.com with dev-XX user
 - Select MarketPlace and search MySQL for Pivotal Cloud Foundry v2 with keyword "mysql" and then select plan
 - Specify Instance Name with dev-db-XX and click Create button. It will take a few minutes
 
@@ -48,6 +48,7 @@ OK
 Create in progress. Use 'cf services' or 'cf service dev-db-13' to check operation status.
 ~~~
 
+## Build application
 - Download the Zip file containing the Spring Music app from https://github.com/cloudfoundry-samples/spring-music, then unzip the downloaded file.
   - Change into the resulting directory
   - Edit the ./manifest.yml file, appending your team ID to the name value; e.g. name: spring-music-13
@@ -69,6 +70,8 @@ Note: Recompile with -Xlint:deprecation for details.
 
 BUILD SUCCESSFUL in 24s
 ~~~
+
+## Deploying application onto PCF
 - Deploy apps into PAS without starting
   - cf push --no-start
 ~~~
@@ -278,6 +281,8 @@ $ cf create-service-key dev-db-13 sk-10-08
 Creating service key sk-10-08 for service instance dev-db-13 as dev-13...
 OK
 ~~~
+
+## Connecting MySQL database 
 - A cf CLI plugin provides access to service instances using an SSH tunnel:
   - cf mysql dev-db-13
 ~~~
