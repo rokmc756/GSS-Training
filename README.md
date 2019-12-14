@@ -405,56 +405,63 @@ EXPLAIN SELECT * FROM members WHERE joined < '1989-01-01';
 EXPLAIN SELECT * FROM members WHERE joined < '1989-01-01' AND joined > '1980-01-01';
 ~~~
 
-
-- Destroy app
-  - cf delete spring-music-13
-
-- List app
-  - cf apps
-
-- List services
-  - cf services
-- Delete service
-  - cf delete-service dev-db-03
-
-- List buildpack
-  - cf buildpacs -B <build kind>
-
-- Unbind service
-  - cf us spring-music-13 dev-db-13
-  
-
-- Create service key
- - cf create-service-key dev-db-13 sk-10-08
-
-- Fetch credentials for CLI login to service instances:
- - cf service-key dev-db-13 sk-10-08
-
-- Tunnel
-  - cf ssh -L 6336:q-m8779n3s0.q-g9014.bosh:3306 pivotal-mysqlweb
-
-- Find key and delete it
-$ cf service-keys dev-db-13
-Getting keys for service instance dev-db-13 as dev-13...
-
-name
-cf-mysql
-Admins-MacBook-Air-2:spring-music-master-working-by-jomoon admin$ cf dsk dev-db-13 cf-mysql
-
-Really delete the service key cf-mysql?> y
-Deleting key cf-mysql for service instance dev-db-13 as dev-13...
-OK
-
-- Delete service
-$ cf ds dev-db-13
-
-Really delete the service dev-db-13?> y
-Deleting service dev-db-13 in org seoul-mysql / space workshop as dev-13...
-OK
-
-Delete in progress. Use 'cf services' or 'cf service dev-db-13' to check operation status.
-
-- How to check MySQL Engine type
-$ SELECT engine FROM information_schema.TABLES where table_name='wp_users' AND table_schema='zetawiki';
-
-ALTER TABLE table_name ENGINE = InnoDB;
+- Reference commands
+  - Destroy app
+~~~
+  cf delete spring-music-13
+~~~
+  - List app
+~~~
+  cf apps
+~~~
+  - List services
+~~~
+  cf services
+~~~
+  - Delete service
+~~~
+  cf delete-service dev-db-03
+~~~
+  - List buildpack
+~~~
+  cf buildpacs -B <build kind>
+~~~
+  - Unbind service
+~~~
+  cf us spring-music-13 dev-db-13
+~~~
+  - Create service key
+~~~
+  cf create-service-key dev-db-13 sk-10-08
+~~~
+  - Fetch credentials for CLI login to service instances:
+~~~
+  cf service-key dev-db-13 sk-10-08
+~~~
+  - Tunnel
+~~~
+  cf ssh -L 6336:q-m8779n3s0.q-g9014.bosh:3306 pivotal-mysqlweb
+~~~
+  - Find key and delete it
+~~~
+  cf service-keys dev-db-13
+  Getting keys for service instance dev-db-13 as dev-13...
+  name
+  cf-mysql
+~~~
+  - Delete service key
+~~~
+  cf delete-service-key dev-db-13 cf-mysql
+  Really delete the service key cf-mysql?> y
+  Deleting key cf-mysql for service instance dev-db-13 as dev-13...
+  OK
+  Delete in progress. Use 'cf services' or 'cf service dev-db-13' to check operation status.
+~~~
+  - How to check MySQL Engine type
+~~~
+  SELECT engine FROM information_schema.TABLES where table_name='wp_users' AND table_schema='zetawiki';
+~~~
+  - Alter engine for the table
+~~~
+  ALTER TABLE table_name ENGINE = InnoDB;
+~~~
