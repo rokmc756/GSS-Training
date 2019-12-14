@@ -195,14 +195,120 @@ start command:   JAVA_OPTS="-agentpath:$PWD/.java-buildpack/open_jdk_jre/bin/jvm
 #0   running   2019-12-14T04:48:29Z   0.0%   42.7K of 1G   8K of 1G
 ~~~
 - Access the credentials for the bound service instance:
-  - cf env spring-music-03
+  - cf env spring-music-13
+~~~
+$ cf env spring-music-13
+Getting env variables for app spring-music-13 in org seoul-mysql / space workshop as dev-13...
+OK
+
+System-Provided:
+{
+ "VCAP_SERVICES": {
+  "p.mysql": [
+   {
+    "binding_name": null,
+    "credentials": {
+     "hostname": "q-n3s3y1.q-g906.bosh",
+     "jdbcUrl": "jdbc:mysql://q-n3s3y1.q-g906.bosh:3306/service_instance_db?user=8913a1dfec29468c9926f8b4581a1714\u0026password=jszgk0bqu4htnqod\u0026useSSL=false",
+     "name": "service_instance_db",
+     "password": "jszgk0bqu4htnqod",
+     "port": 3306,
+     "uri": "mysql://8913a1dfec29468c9926f8b4581a1714:jszgk0bqu4htnqod@q-n3s3y1.q-g906.bosh:3306/service_instance_db?reconnect=true",
+     "username": "8913a1dfec29468c9926f8b4581a1714"
+    },
+    "instance_name": "dev-db-13",
+    "label": "p.mysql",
+    "name": "dev-db-13",
+    "plan": "db-small",
+    "provider": null,
+    "syslog_drain_url": null,
+    "tags": [
+     "mysql"
+    ],
+    "volume_mounts": []
+   }
+  ]
+ }
+}
+
+{
+ "VCAP_APPLICATION": {
+  "application_id": "a2f14048-7bec-4a14-a7d8-b1c7f268275d",
+  "application_name": "spring-music-13",
+  "application_uris": [
+   "spring-music-13-noisy-springhare-gv.apps.datamelange.com"
+  ],
+  "application_version": "65cc506e-4157-4103-99e5-065253ee5575",
+  "cf_api": "https://api.sys.datamelange.com",
+  "limits": {
+   "disk": 1024,
+   "fds": 16384,
+   "mem": 1024
+  },
+  "name": "spring-music-13",
+  "organization_id": "8fb043c2-8acf-4f84-bd67-7f706c4c6792",
+  "organization_name": "seoul-mysql",
+  "process_id": "a2f14048-7bec-4a14-a7d8-b1c7f268275d",
+  "process_type": "web",
+  "space_id": "0c296e18-045f-4f3c-a8d7-6216f52b628a",
+  "space_name": "workshop",
+  "uris": [
+   "spring-music-13-noisy-springhare-gv.apps.datamelange.com"
+  ],
+  "users": null,
+  "version": "65cc506e-4157-4103-99e5-065253ee5575"
+ }
+}
+
+No user-defined env variables have been set
+
+No running env variables have been set
+
+No staging env variables have been set
+~~~
 - The better way to fetch credentials for CLI login to service instances:
   - cf create-service-key dev-db-03 sk-03-01
+~~~
+$ cf create-service-key dev-db-13 sk-10-08
+Creating service key sk-10-08 for service instance dev-db-13 as dev-13...
+OK
+~~~
 - A cf CLI plugin provides access to service instances using an SSH tunnel:
-  - cf mysql dev-db-03
+  - cf mysql dev-db-13
+~~~
+$ cf mysql dev-db-13
+mysql: [Warning] Using a password on the command line interface can be insecure.
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 412
+Server version: 5.7.26-29-log MySQL Community Server (GPL)
 
+Copyright (c) 2000, 2019, Oracle and/or its affiliates. All rights reserved.
 
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql>
+~~~
+- Using a similar approach, a developer is able to make a backup:
+~~~
+$ cf mysqldump dev-db-13 album --column-statistics=0 --set-gtid-purged=OFF > my-db-dump-$( date +%s ).sql
+mysqldump: [Warning] Using a password on the command line interface can be insecure.`
+~~~
+
+- Work through example of data loading, index creation, viewing query plan, compressing a table. NOTE: you must have an app bound to the service instance before doing this.
+- Create the tables: use ./osm_tables.sql, either copy/paste into a cf mysql terminal, or cf mysql dev-db-03 < ./osm_tables.sql
+Set your service instance name in the load script, ./load_osm_data_mysql.sh
+Run that script to load data into these tables: ./load_osm_data_mysql.sh Caveat: if you need to load large data sets, it's better to do that in smaller chunks, as discussed here.
+Run query:
+select v, count(*) from osm_k_v where k = 'amenity' group by 1 order by 2 desc limit 30;
+Review query plan (e.g. EXPLAIN):
+explain select v, count(*) from osm_k_v where k = 'amenity' group by 1 order by 2 desc limit 30;
 
 
 - Destroy app
