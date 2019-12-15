@@ -10,7 +10,7 @@ cf install-plugin -r "CF-Community" mysql-plugin
 ~~~
 - Install JDK 1.8
  - Installing java -  https://java.com/en/download/help/mac_install.xml
-  - If you did not install JDK version correcdtly, Follow the step descriabed at the link [1]
+  - If you did not install JDK version correcdtly, Follow the step descriabed at the link [1] and reinstall it
     - [1] How to uninstall java on Mac -  https://explainjava.com/uninstall-java-macos/
 
 ## Preparing MySQL environment on PCF
@@ -38,8 +38,7 @@ User:           dev-13
 Org:            seoul-mysql
 Space:          workshop
 ~~~
-  - cf create-service p.mysql db-small dev-db-13
-  - In these steps, the -03 is present to differentiate one student from another; use your assigned ID here in place of the 03
+- Install MySQL service
 ~~~
 cf create-service p.mysql db-small dev-db-13
 Creating service instance dev-db-13 in org seoul-mysql / space workshop as dev-13...
@@ -107,8 +106,7 @@ memory usage:   1024M
      state   since                  cpu    memory   disk     details
 #0   down    2019-12-14T04:44:15Z   0.0%   0 of 0   0 of 0
 ~~~
-- How do apps access services?
-  - cf bind-service spring-music-13 dev-db-13
+- Bind services with application
 ~~~
 $ cf bind-service spring-music-13 dev-db-13
 Binding service dev-db-13 to app spring-music-13 in org seoul-mysql / space workshop as dev-13...
@@ -116,7 +114,7 @@ OK
 
 TIP: Use 'cf restage spring-music-13' to ensure your env variable changes take effect
 ~~~
-  - cf start spring-music-13
+- Start application
 ~~~
 $ cf bind-service spring-music-13 dev-db-13
 Binding service dev-db-13 to app spring-music-13 in org seoul-mysql / space workshop as dev-13...
@@ -203,7 +201,6 @@ start command:   JAVA_OPTS="-agentpath:$PWD/.java-buildpack/open_jdk_jre/bin/jvm
 #0   running   2019-12-14T04:48:29Z   0.0%   42.7K of 1G   8K of 1G
 ~~~
 - Access the credentials for the bound service instance:
-  - cf env spring-music-13
 ~~~
 $ cf env spring-music-13
 Getting env variables for app spring-music-13 in org seoul-mysql / space workshop as dev-13...
@@ -274,8 +271,7 @@ No running env variables have been set
 
 No staging env variables have been set
 ~~~
-- The better way to fetch credentials for CLI login to service instances:
-  - cf create-service-key dev-db-03 sk-03-01
+- Fetch credentials for CLI login to service instances
 ~~~
 $ cf create-service-key dev-db-13 sk-10-08
 Creating service key sk-10-08 for service instance dev-db-13 as dev-13...
@@ -283,8 +279,7 @@ OK
 ~~~
 
 ## Connecting MySQL database 
-- A cf CLI plugin provides access to service instances using an SSH tunnel:
-  - cf mysql dev-db-13
+- Access to service instances using an SSH tunnel with a CF CLI plugin
 ~~~
 $ cf mysql dev-db-13
 mysql: [Warning] Using a password on the command line interface can be insecure.
@@ -305,7 +300,7 @@ Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
 
 mysql>
 ~~~
-- Using a similar approach, a developer is able to make a backup:
+- Make backup using an SSH tunnel with a CF CLI plugin
 ~~~
 $ cf mysqldump dev-db-13 album --column-statistics=0 --set-gtid-purged=OFF > my-db-dump-$( date +%s ).sql
 mysqldump: [Warning] Using a password on the command line interface can be insecure.`

@@ -1,52 +1,12 @@
-## Preparing Build and CCF Client environment on Mac
-- Install CloudFoudry CLI referring from https://github.com/cloudfoundry/cli/releases
-- Install MySQL Client on Mac
-~~~
-brew install mysql
-~~~
-- Install CloudForundy MySQL Plugin
-~~~
-cf install-plugin -r "CF-Community" mysql-plugin
-~~~
-- Install JDK 1.8
- - Installing java -  https://java.com/en/download/help/mac_install.xml
-  - If you did not install JDK version correcdtly, Follow the step descriabed at the link [1]
-    - [1] How to uninstall java on Mac -  https://explainjava.com/uninstall-java-macos/
-
-## Preparing MySQL environment on PCF
+## Preparing MySQL-HA environment on PCF
 - Loging into https://login.sys.datamelange.com with dev-XX user
-- Select MarketPlace and search MySQL for Pivotal Cloud Foundry v2 with keyword "mysql" and then select plan
-- Specify Instance Name with dev-db-XX and click Create button. It will take a few minutes
+- Go to Space -> Service -> Add Service - MySQL for Pivotal Cloud Foundry v2
+- Select db-ha plan and then specify instance name as dev-dbha-13 and Click Create
+  - It will take a few minutes
 
-- Create service after login with cf cli on Mac
-~~~
-$ cf login -a https://api.sys.datamelange.com --skip-ssl-validation
-API endpoint: https://api.sys.datamelange.com
-
-Email: dev-13
-
-Password:
-Authenticating...
-OK
-
-Targeted org seoul-mysql
-
-Targeted space workshop
-
-API endpoint:   https://api.sys.datamelange.com (API version: 3.74.0)
-User:           dev-13
-Org:            seoul-mysql
-Space:          workshop
-~~~
-  - cf create-service p.mysql db-small dev-db-13
+  - cf create-service p.mysql db-ha dev-db-13
   - In these steps, the -03 is present to differentiate one student from another; use your assigned ID here in place of the 03
-~~~
-cf create-service p.mysql db-small dev-db-13
-Creating service instance dev-db-13 in org seoul-mysql / space workshop as dev-13...
-OK
 
-Create in progress. Use 'cf services' or 'cf service dev-db-13' to check operation status.
-~~~
 
 ## Build application
 - Download the Zip file containing the Spring Music app from https://github.com/cloudfoundry-samples/spring-music, then unzip the downloaded file.
@@ -118,12 +78,7 @@ TIP: Use 'cf restage spring-music-13' to ensure your env variable changes take e
 ~~~
   - cf start spring-music-13
 ~~~
-$ cf bind-service spring-music-13 dev-db-13
-Binding service dev-db-13 to app spring-music-13 in org seoul-mysql / space workshop as dev-13...
-OK
-
-TIP: Use 'cf restage spring-music-13' to ensure your env variable changes take effect
-Admins-MacBook-Air-2:spring-music-master admin$ cf start spring-music-13
+$ cf start spring-music-13
 Starting app spring-music-13 in org seoul-mysql / space workshop as dev-13...
 
 Staging app and tracing logs...
