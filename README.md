@@ -70,7 +70,7 @@ Note: Recompile with -Xlint:deprecation for details.
 BUILD SUCCESSFUL in 24s
 ~~~
 
-- If you want to build application with MySQL InnoDB the following three line should be added in pring-music/src/main/resources/application.yml before building application by gradlew
+- If you want to build application with MySQL InnoDB the following three line should be added in spring-music/src/main/resources/application.yml before building application by gradlew
 ~~~
 ~~ skip
 spring.jpa.properties.hibernate.dialect: org.hibernate.dialect.MySQL57Dialect # --> Add this line
