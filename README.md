@@ -1,4 +1,4 @@
-## Preparing Build and CCF Client environment on Mac
+## Preparing Build and PCF Client environment on Mac
 - Install CloudFoudry CLI referring from https://github.com/cloudfoundry/cli/releases
 - Install MySQL Client on Mac
 ~~~
@@ -72,7 +72,7 @@ BUILD SUCCESSFUL in 24s
 
 ## Deploying application onto PCF
 - Deploy apps into PAS without starting
-  - cf push --no-start
+  - cf push --no-start or cf push spring-music
 ~~~
 Pushing from manifest to org seoul-mysql / space workshop as dev-13...
 Using manifest file /Users/admin/gss-training-mysql-for-pcf/spring-music-master/manifest.yml
@@ -116,7 +116,7 @@ TIP: Use 'cf restage spring-music-13' to ensure your env variable changes take e
 ~~~
 - Start application
 ~~~
-$ cf bind-service spring-music-13 dev-db-13
+$ cf start spring-music-13
 Binding service dev-db-13 to app spring-music-13 in org seoul-mysql / space workshop as dev-13...
 OK
 
@@ -488,3 +488,10 @@ Delete in progress. Use 'cf services' or 'cf service dev-db-13' to check operati
 ~~~
   mysql> ALTER TABLE table_name ENGINE = InnoDB;
 ~~~
+
+
+
+TIP: Application must be listening on the right port. Instead of hard coding the port, use the $PORT environment variable.
+
+Use 'cf logs spring-music --recent' for more information
+FAILED
