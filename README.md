@@ -70,10 +70,37 @@ Note: Recompile with -Xlint:deprecation for details.
 BUILD SUCCESSFUL in 24s
 ~~~
 
+- If you want to build application with MySQL InnoDB the following three line should be added in pring-music/src/main/resources/application.yml before building application by gradlew
+~~~
+~~ skip
+spring.jpa.properties.hibernate.dialect: org.hibernate.dialect.MySQL57Dialect # --> Add this line
+spring.jpa.properties.hibernate.dialect.storage_engine: innodb                # --> Add this line
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+---
+spring:
+  profiles: mysql
+  datasource:
+    url: "jdbc:mysql://localhost/music"
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username:
+    password: 
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL57Dialect                         # --> MySQL57Dialect should be changed from MySQL55Dialect
+~~ skip
+~~~
+
 ## Deploying application onto PCF
 - Deploy apps into PAS without starting
-  - cf push --no-start or cf push spring-music
 ~~~
+$ cf push --no-start or cf push spring-music
 Pushing from manifest to org seoul-mysql / space workshop as dev-13...
 Using manifest file /Users/admin/gss-training-mysql-for-pcf/spring-music-master/manifest.yml
 Getting app info...
